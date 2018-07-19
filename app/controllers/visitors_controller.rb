@@ -149,7 +149,7 @@ request.body = JSON.dump({
   "kind" => "PersistentVolumeClaim",
   "apiVersion" => "v1",
   "metadata" => {
-    "name" => "pocfly1_pvc" : nil,
+    "name" => "pocfly1_pvc",
     "namespace" => project_name,
     "creationTimestamp" => nil
   },
