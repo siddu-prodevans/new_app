@@ -13,5 +13,6 @@
  *= require_tree .
  *= require bootstrap.min
  *= require datepicker.min
+ *= require style
  *= require_self
  */

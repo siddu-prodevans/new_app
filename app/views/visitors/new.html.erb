@@ -1,4 +1,4 @@
-
+<div style="margin-top:30px">
 <%= form_for @project, :as => :project, :url => visitors_path(@project) do |f| %>
     <div class="row">
         <div class="col-xs-6">
@@ -33,47 +33,42 @@
                    
         <div class="col-xs-6">
             <label class="col-md-3 control-label">vCPU</label>
-            <div class="switch-field">
-                <%= f.radio_button :vcpu, '1', :checked => true %>   
-             
-               <label for="switch_3_left">1</label>
-                              <%= f.radio_button :vcpu, '2' %>
-              
-              <label for="switch_3_center">2</label>
-                              <%= f.radio_button :vcpu, '3'%>
-              
-              <label for="switch_3_right">3</label>
-           </div>
+           <div class="switch-field">
+      
+      <input type="radio" id="switch_3_left" name="project[vcpu]" value="1" checked/>
+      <label for="switch_3_left">1</label>
+      <input type="radio" id="switch_3_center" name="project[vcpu]" value="2" />
+      <label for="switch_3_center">2</label>
+			<input type="radio" id="switch_3_right" name="project[vcpu]" value="3" />
+      <label for="switch_3_right">3</label>
+                              <input type="radio" id="switch_10_right" name="project[vcpu]" value="4" />
+      <label for="switch_10_right">4</label>
+    </div>
         </div>
-        
         <div class="col-xs-6">
-           <label class="col-md-3 control-label">Memory</label>
-            <div class="switch-field">
-                             <%= f.radio_button :memory, '2GB', :checked => true %>
-             
-              <label for="switch_3_left">2GB</label>
-                              <%= f.radio_button :memory, '4GB'%>
-              
-               <label for="switch_3_center">4GB</label>
-                       <%= f.radio_button :memory, '8GB'%>
-		
-              <label for="switch_3_right">8GB</label>
-                               <%= f.radio_button :memory, '16GB' %>
-                                     
-              <label for="switch_3_right">16GB</label>
-                               <%= f.radio_button :memory, '32GB'%>
-                       
-              <label for="switch_3_right">32GB</label>
-                                  <%= f.radio_button :memory, '64GB' %>
-                                
-              <label for="switch_3_right">64GB</label>
-            </div>
+            <label class="col-md-3 control-label">Memory</label>
+           <div class="memory-field">
+      <input type="radio" id="switch_4_left" name="project[memory]" value="2GB" checked/>
+      <label for="switch_4_left">2GB</label>
+      <input type="radio" id="switch_5_center" name="project[memory]" value="4GB" />
+      <label for="switch_5_center">4GB</label>
+                        <input type="radio" id="switch_6_right" name="project[memory]" value="8GB" />
+      <label for="switch_6_right">8GB</label>
+                              <input type="radio" id="switch_7_right" name="project[memory]" value="16GB" />
+      <label for="switch_7_right">16GB</label>
+                              <input type="radio" id="switch_8_right" name="project[memory]" value="32GB" />
+      <label for="switch_8_right">32GB</label>
+                           
+    </div>
         </div>
     </div>
     <div class="row">
        <div class="col-xs-6">
                  <label class="col-md-3 control-label">Expiration Date</label>
-           <%=f.text_field :exp_date, class: "form-control"%>
+             
+             <div class="input-group date" style="width:30%">
+               <input type="text" class="form-control input-sm" name="project[exp_date]"><span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>
+            </div>
            
         </div>
     <div>
@@ -82,17 +77,17 @@
        
     </div>
 <%end%>
-    
-
-
-
+</div>
 
 <style>
-   .switch-field {
+.switch-field {
   font-family: "Lucida Grande", Tahoma, Verdana, sans-serif;
 	overflow: hidden;
 }
 
+.switch-title {
+  margin-bottom: 6px;
+}
 
 .switch-field input {
     position: absolute !important;
@@ -145,3 +140,13 @@
   border-radius: 0 4px 4px 0;
 }
 </style>
+
+<script>
+    $('.date-picker').datepicker({
+        format: "dd/mm/yyyy",
+        startDate: new Date(),
+        todayBtn: "linked",
+        autoclose: true,
+        todayHighlight: true
+    });
+</script>

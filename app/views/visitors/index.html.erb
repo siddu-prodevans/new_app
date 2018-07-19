@@ -13,13 +13,13 @@
       <div id="collapse1" class="panel-collapse collapse in">
         <div class="panel-body">
           <ul style="list-style-type:square">
-            <li><strong>Lanid:</strong></li>
-            <li><strong>URL:</strong></li>
+            <li><strong>Lanid: <%=@user.try(:lanid)%></strong></li>
+            <li><strong>URL: </strong><span>https://ose.cpaas.service.test:8443</span></li>
             <li><strong>Oc Login Setps</strong>
                 <ul class="inside">
-                <li>oc login provide URL</li>
-                <li>Username:</li>
-                <li>Password:</li>
+                <li>oc login https://ose.cpaas.service.test:8443</li>
+                <li>Username: <%=@user.try(:lanid)%></li>
+                <li>Password: (Your globaltest_account_password)</li>
                 </ul>
             </li>
             <li><strong>App Url:</strong></li>
@@ -79,12 +79,8 @@
     <!-- Bootstrap core JavaScript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-    <script src="bootstrap.min.js"></script>
-    <script src="bootstrap-datepicker.js"></script>
-  
-
-</body></html>
+   
+ 
 
 
 <style>

@@ -3,6 +3,6 @@ development:
   encoding: utf8
   database: new_mydb
   username: root
-  password: redhat
+  password: new-password
   host: 127.0.0.1
   port: 3306
