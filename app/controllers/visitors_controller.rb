@@ -149,7 +149,7 @@ request.body = JSON.dump({
   "kind" => "PersistentVolumeClaim",
   "apiVersion" => "v1",
   "metadata" => {
-    "name" => "pocfly1_pvc",
+    "name" => pv.present? ? pv.first.pv_name+"-pvc" : nil,
     "namespace" => project_name,
     "creationTimestamp" => nil
   },
@@ -162,7 +162,7 @@ request.body = JSON.dump({
         "storage" => "50Gi"
       }
     },
-    "volumeName" => "pocfly1"
+    "volumeName" => pv.present? ? pv.first.pv_name : nil
   }
 })
 
@@ -258,7 +258,7 @@ request.body = JSON.dump({
           {
             "name" => "mysql-data",
             "persistentVolumeClaim" => {
-              "claimName" => "pocfly1_pvc"
+              "claimName" => pv.present? ? pv.first.pv_name+"-pvc" : nil
             }
           }
         ]
