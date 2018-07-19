@@ -5,7 +5,7 @@ git_source(:github) do |repo_name|
   "https://github.com/#{repo_name}.git"
 end
 
-ruby '2.5.1'
+ruby '2.3.7'
 gem 'rails', '~> 5.1.2'
 gem 'devise'
 # Rails defaults
@@ -37,10 +37,10 @@ group :development do
   gem 'rails_layout'
 end
 group :development, :test do
-  gem 'sqlite3'
+  gem 'mysql2', '~> 0.3.18'
 end
 group :production do
-  gem 'pg'
+  #gem 'pg'
 end
 group :test do
   gem 'minitest-spec-rails'
