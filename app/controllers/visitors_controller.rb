@@ -21,12 +21,19 @@ class VisitorsController < ApplicationController
 
   def create
     @visitor = current_user.build_project(secure_params)
-    p "===================#{@visitor.inspect}================="
+    pvc_availble = PvContainer.where(pv_used: 0)
+    proj_name =  @visitor.try(:project_name)
     if @visitor.save
-      p "===============#{@visitor.project_name} ===== project"
+      p "=============#{proj_name} ===== project"
       p "================ #{TOKEN} =======token======"
-      new_project_app(@visitor.try(:project_name))
-      project_policy_binding(@visitor.try(:project_name), current_user.try(:lanid))
+      new_project_app(proj_name)
+      project_policy_binding(proj_name, current_user.try(:lanid))
+      git_url = git_repo_build(proj_name)
+      @visitor.git_repo_url = git_url
+      @visitor.save
+      pvc_build_container(proj_name,pvc_availble)
+      mysql_build_container(proj_name)
+      svc_build_container(proj_name)
       flash[:notice] = "project created successful"
       redirect_to visitors_path 
     else
@@ -102,6 +109,227 @@ end
      http.request(request)
    end
 
+  end
+
+  def git_repo_build(project_name)
+  
+    uri = URI.parse("http://gogs.apps.cpaas.service.test/api/v1/user/repos?token=069a01464480025f134bd21e0f92163a4fe4d63a")
+    request = Net::HTTP::Post.new(uri)
+    request.content_type = "application/x-www-form-urlencoded"
+    request["Accept"] = "application/json"
+    request.set_form_data(
+      "name" => project_name+"_repo",
+    )
+
+   req_options = {
+     use_ssl: uri.scheme == "https",
+     verify_mode: OpenSSL::SSL::VERIFY_NONE,
+   }
+
+   response = Net::HTTP.start(uri.hostname, uri.port, req_options) do |http|
+      http.request(request)
+   end
+   data = JSON.parse(response.body)["clone_url"]
+   return data
+  end
+
+  def pvc_build_container(project_name,pv)
+   uri = URI.parse("https://ose.cpaas.service.test:8443/api/v1/namespaces/"+project_name+"/persistentvolumeclaims")
+request = Net::HTTP::Post.new(uri)
+request.content_type = "application/json"
+request["Authorization"] = TOKEN
+request["Accept"] = "application/json"
+request.body = JSON.dump({
+  "kind" => "PersistentVolumeClaim",
+  "apiVersion" => "v1",
+  "metadata" => {
+    "name" => pv.present? ? pv.first.pv_name+"_pvc" : nil,
+    "namespace" => project_name,
+    "creationTimestamp" => nil
+  },
+  "spec" => {
+    "accessModes" => [
+      "ReadWriteOnce"
+    ],
+    "resources" => {
+      "requests" => {
+        "storage" => "50Gi"
+      }
+    },
+    "volumeName" => pv.present? ? pv.first.pv_name : nil
+  }
+})
+
+req_options = {
+  use_ssl: uri.scheme == "https",
+  verify_mode: OpenSSL::SSL::VERIFY_NONE,
+}
+
+response = Net::HTTP.start(uri.hostname, uri.port, req_options) do |http|
+  http.request(request)
+end
+  end
+
+  def mysql_build_container(project_name)
+   uri = URI.parse("https://ose.cpaas.service.test:8443/oapi/v1/namespaces/"+project_name+"/deploymentconfigs")
+request = Net::HTTP::Post.new(uri)
+request.content_type = "application/json"
+request["Authorization"] = TOKEN
+request["Accept"] = "application/json"
+request.body = JSON.dump({
+  "apiVersion" => "v1",
+  "kind" => "DeploymentConfig",
+  "metadata" => {
+    "creationTimestamp" => nil,
+    "generation" => 1,
+    "labels" => {
+      "app" => "mysql"
+    },
+    "name" => "mysql",
+    "namespace" => project_name
+  },
+  "spec" => {
+    "replicas" => 1,
+    "selector" => {
+      "app" => "mysql",
+      "deploymentconfig" => "mysql"
+    },
+    "strategy" => {
+      "activeDeadlineSeconds" => 21600,
+      "rollingParams" => {
+        "intervalSeconds" => 1,
+        "maxSurge" => "25%",
+        "maxUnavailable" => "25%",
+        "timeoutSeconds" => 600,
+        "updatePeriodSeconds" => 1
+      },
+      "type" => "Rolling"
+    },
+    "template" => {
+      "metadata" => {
+        "annotations" => {
+          "openshift.io/generated-by" => "OpenShiftNewApp"
+        },
+        "creationTimestamp" => nil,
+        "labels" => {
+          "app" => "mysql",
+          "deploymentconfig" => "mysql"
+        }
+      },
+      "spec" => {
+        "containers" => [
+          {
+            "env" => [
+              {
+                "name" => "MYSQL_ROOT_PASSWORD",
+                "value" => "password"
+              }
+            ],
+            "image" => "dcartifactory.service.dev:5000/openshift3/mysql-57-rhel7:latest",
+            "imagePullPolicy" => "Always",
+            "name" => "mysql",
+            "ports" => [
+              {
+                "containerPort" => 3306,
+                "protocol" => "TCP"
+              }
+            ],
+            "terminationMessagePath" => "/dev/termination-log",
+            "terminationMessagePolicy" => "File",
+            "volumeMounts" => [
+              {
+                "mountPath" => "/var/lib/mysql/data",
+                "name" => "mysql-data"
+              }
+            ]
+          }
+        ],
+        "dnsPolicy" => "ClusterFirst",
+        "restartPolicy" => "Always",
+        "schedulerName" => "default-scheduler",
+        "terminationGracePeriodSeconds" => 30,
+        "volumes" => [
+          {
+            "name" => "mysql-data",
+            "persistentVolumeClaim" => {
+              "claimName" => pv.present? ? pv.first.pv_name+"_pvc" : nil
+            }
+          }
+        ]
+      }
+    },
+    "test" => false
+  }
+})
+
+req_options = {
+  use_ssl: uri.scheme == "https",
+  verify_mode: OpenSSL::SSL::VERIFY_NONE,
+}
+
+response = Net::HTTP.start(uri.hostname, uri.port, req_options) do |http|
+  http.request(request)
+end
+  end
+
+  def svc_build_container(project_name)
+   uri = URI.parse("https://ose.cpaas.service.test:8443/api/v1/namespaces/"+project_name+"/services")
+request = Net::HTTP::Post.new(uri)
+request.content_type = "application/json"
+request["Authorization"] = TOKEN
+request["Accept"] = "application/json"
+request.body = JSON.dump({
+  "apiVersion" => "v1",
+  "kind" => "Service",
+  "metadata" => {
+    "creationTimestamp" => nil,
+    "name" => "mysql",
+    "namespace" => project_name
+  },
+  "spec" => {
+    "ports" => [
+      {
+        "name" => "3306-tcp",
+        "port" => 3306,
+        "protocol" => "TCP",
+        "targetPort" => 3306
+      }
+    ],
+    "sessionAffinity" => "None",
+    "type" => "ClusterIP"
+  }
+})
+
+req_options = {
+  use_ssl: uri.scheme == "https",
+  verify_mode: OpenSSL::SSL::VERIFY_NONE,
+}
+
+response = Net::HTTP.start(uri.hostname, uri.port, req_options) do |http|
+  http.request(request)
+end
+  end
+
+  def destroy
+    project = Project.find_by_id(params[:id])
+    uri = URI.parse("https://ose.cpaas.service.test:8443/oapi/v1/projects/"+project.try(:project_name))
+request = Net::HTTP::Delete.new(uri)
+request.content_type = "application/json"
+request["Authorization"] = TOKEN
+request["Accept"] = "application/json"
+request.body = JSON.dump({
+  "orphanDependents" => false
+})
+
+req_options = {
+  use_ssl: uri.scheme == "https",
+  verify_mode: OpenSSL::SSL::VERIFY_NONE,
+}
+
+response = Net::HTTP.start(uri.hostname, uri.port, req_options) do |http|
+  http.request(request)
+end
+  project.destroy
   end
 
   private

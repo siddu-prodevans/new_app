@@ -10,7 +10,15 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180719125133) do
+ActiveRecord::Schema.define(version: 20180719204924) do
+
+  create_table "oc_pvcs", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.integer "project_id"
+    t.string "pvc_name"
+    t.integer "used_pv"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "projects", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "project_name"
@@ -21,6 +29,14 @@ ActiveRecord::Schema.define(version: 20180719125133) do
     t.string "memory"
     t.string "exp_date"
     t.integer "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "git_repo_url"
+  end
+
+  create_table "pv_containers", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string "pv_name"
+    t.integer "pv_used"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

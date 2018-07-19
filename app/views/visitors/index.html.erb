@@ -38,7 +38,7 @@
       </div>
       <div id="collapse2" class="panel-collapse collapse">
         <div class="panel-body"><ul style="list-style-type:square">
-            <li><strong>Git URL:</strong></li>
+            <li><strong>Git URL: </strong> <%=@project.try(:git_repo_url)%></li>
             <li><strong>Commands:</strong>
             <ul class="inside">
                 <li>git clone repository url</li>
@@ -73,7 +73,7 @@
       </div>
     </div>
   </div> 
-      <div class="col-md5"><button type="submit" class="btn btn-danger">Delete Project</button></div>
+      <div class="col-md5"><%= link_to 'Delete Project', visitor_path(id: @project.try(:id)), method: :delete, class: "btn btn-danger" %></div>
     </main>
 
     <!-- Bootstrap core JavaScript

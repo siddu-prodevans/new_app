@@ -1,0 +1,9 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  pv_name: MyString
+  pv_used: 1
+
+two:
+  pv_name: MyString
+  pv_used: 1

@@ -1,0 +1,2 @@
+class OcPvc < ApplicationRecord
+end
