@@ -1,0 +1,170 @@
+<html lang="en"><head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>Fixed top navbar example for Bootstrap</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="navbar-top-fixed.css" rel="stylesheet">
+    <link href="datepicker.min.css" rel="stylesheet">
+  </head>
+
+  <body>
+
+    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+      <a class="navbar-brand" href="#">Fixed navbar</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarCollapse">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item active">
+            <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Link</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link disabled" href="#">Disabled</a>
+          </li>
+        </ul>
+        <form class="form-inline mt-2 mt-md-0">
+          <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
+          <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+        </form>
+      </div>
+    </nav>
+    <div style="margin-left:102px">
+      <h4>Project Name: </h4>
+    </div>
+    <main role="main" class="container">
+        <div class="panel-group" id="accordion">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h4 class="panel-title">
+          <a data-toggle="collapse" class="accordin-image" data-parent="#accordion" href="#collapse1">Openshift Detail</a>
+        </h4>
+      </div>
+      <div id="collapse1" class="panel-collapse collapse in">
+        <div class="panel-body">
+          <ul style="list-style-type:square">
+            <li><strong>Lanid:</strong></li>
+            <li><strong>URL:</strong></li>
+            <li><strong>Oc Login Setps</strong>
+                <ul class="inside">
+                <li>oc login provide URL</li>
+                <li>Username:</li>
+                <li>Password:</li>
+                </ul>
+            </li>
+            <li><strong>App Url:</strong></li>
+            <li><strong>Db Connect:</strong></li>
+          </ul> 
+        </div>
+      </div>
+    </div>
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h4 class="panel-title">
+          <a role="button" class="accordin-image" data-toggle="collapse" data-parent="#accordion" href="#collapse2" aria-expanded="true" aria-controls="collapseOne" class="">
+          Source Control  
+          </a>
+        </h4>
+      </div>
+      <div id="collapse2" class="panel-collapse collapse">
+        <div class="panel-body"><ul style="list-style-type:square">
+            <li><strong>Git URL:</strong></li>
+            <li><strong>Commands:</strong>
+            <ul class="inside">
+                <li>git clone repository url</li>
+                <li>git add .</li>
+                <li>git commit -m "message"</li>
+                <li>git push origin</li>
+            </ul>
+          </li>
+          </ul>
+          <div class="col-md5"><button type="submit" class="btn btn-primary">Start Build</button></div>
+          </div>
+      </div>
+    </div>
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h4 class="panel-title">
+          <a data-toggle="collapse" class="accordin-image" data-parent="#accordion" href="#collapse3">Project Detail</a>
+        </h4>
+      </div>
+      <div id="collapse3" class="panel-collapse collapse">
+        <div class="panel-body">
+          <ul style="list-style-type:none">
+            <li><strong>Project startdate:</strong></li>
+            <li><strong>Project enddate:</strong></li>
+            <li><strong>Days Remaing:</strong></li>
+            <li><strong>Extend Project date:</strong></li>
+            <div class="input-group date" style="width:20%">
+               <input type="text" class="form-control input-sm"><span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>
+            </div>
+          </ul> 
+        </div>
+      </div>
+    </div>
+  </div> 
+      <div class="col-md5"><button type="submit" class="btn btn-danger">Delete Project</button></div>
+    </main>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="bootstrap.min.js"></script>
+    <script src="bootstrap-datepicker.js"></script>
+  
+
+</body></html>
+
+
+<style>
+  /* Show it is fixed to the top */
+body {
+  min-height: 75rem;
+  padding-top: 4.5rem;
+}
+.panel-title>a
+  {
+    display: block;
+    padding: -1px;
+    color: #555;
+    font-size: 16px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    word-spacing: 3px;
+    text-decoration: none;
+  }
+  @import url('//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css');
+  .accordin-image:after {
+    font-family: 'Glyphicons Halflings';  /* essential for enabling glyphicon */
+    content: "\e114";    /* adjust as needed, taken from bootstrap.css */
+    float: right;        /* adjust as needed */
+    color: grey;      
+  }
+.accordin-image.collapsed:after {
+    /* symbol for "collapsed" panels */
+    content: "\e080";    /* adjust as needed, taken from bootstrap.css */
+}
+
+  
+</style>
+
+<script>
+    $('.input-group.date').datepicker({
+        format: "dd/mm/yyyy",
+        startDate: new Date(),
+        todayBtn: "linked",
+        autoclose: true,
+        todayHighlight: true
+    });
+</script>
