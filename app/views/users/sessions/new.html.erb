@@ -1,0 +1,49 @@
+<div class="container">    
+  <div id="loginbox" style="margin-top:50px;" class="mainbox col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">                    
+    <div class="panel panel-info" >
+      <div class="panel-heading">
+        <div class="panel-title">Sign In</div>
+          
+      </div>     
+
+      <div style="padding-top:30px" class="panel-body" >
+        <div style="display:none" id="login-alert" class="alert alert-danger col-sm-12"></div>
+          <%= form_for(resource, as: resource_name, url: session_path(resource_name), class: "form-horizontal")do |f| %>
+            <div style="margin-bottom: 25px" class="input-group">
+              <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+              <%= f.email_field :email, class: "form-control", placeholder: "username or email",autocomplete: "email" %>                                        
+            </div>
+            <div style="margin-bottom: 25px" class="input-group">
+              <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+              <%= f.password_field :password, class: "form-control", placeholder: "password" %>
+            </div>
+            <div class="input-group">
+              <div class="checkbox">
+                <label>
+                  <input id="login-remember" type="checkbox" name="remember" value="1"> Remember me
+                </label>
+              </div>
+            </div>
+            <div style="margin-top:10px" class="form-group">
+                                    
+              <div class="col-sm-12 controls" style="margin-bottom: 10px">
+                <%=f.submit 'Login', class: "btn btn-success"%>
+              </div>
+            </div>
+
+
+            <div class="form-group">
+                <div class="col-md-12 control">
+                    <div style="border-top: 1px solid#888; padding-top:15px; font-size:85%" >
+                        Don't have an account! 
+                    <%= link_to "Sign Up Here", new_user_registration_path, :class => 'navbar-link'  %>
+                    </div>
+                </div>
+            </div> 
+          <%end%>      
+        </div>                     
+      </div>  
+    </div>
+        
+  </div> 
+

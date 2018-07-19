@@ -5,9 +5,9 @@ git_source(:github) do |repo_name|
   "https://github.com/#{repo_name}.git"
 end
 
-ruby '2.4.1'
+ruby '2.5.1'
 gem 'rails', '~> 5.1.2'
-
+gem 'devise'
 # Rails defaults
 gem 'puma', '~> 3.7'
 gem 'sass-rails', '~> 5.0'

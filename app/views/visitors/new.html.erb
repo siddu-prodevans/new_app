@@ -1,20 +1,42 @@
-<% content_for :title do %>Foobar Kadigan<% end %>
-<% content_for :description do %>Website of Foobar Kadigan<% end %>
-<section>
-  <img src="http://lorempixel.com/1170/600/cats/1">
-</section>
-<section>
-  <div class="column">
-    <h3>Stay in touch.</h3>
-  </div>
-  <div class="column">
-    <div class="form-centered">
-      <%= form_with(model: @visitor) do |f| %>
-        <%= f.email_field :email, placeholder: 'Your email address...', autofocus: true %>
-        <br/>
-        <br/>
-        <%= f.submit 'Sign up for the newsletter', class: 'submit' %>
-      <% end %>
+<form style="margin-top: 30px">
+    <div class="row">
+        <div class="col-xs-6">
+            <label class="col-md-3 control-label">Project Name</label>
+            <input type="text" class="form-control input-lg" placeholder="Large input">
+        </div>
+        <div class="col-xs-6">
+            <label class="col-md-3 control-label">Technology</label>
+            <select class="form-control input-lg">
+                <option>Ruby</option>
+                <option>PHP</option>
+
+            </select>
+        </div>
     </div>
-  </div>
-</section>
+    <br>
+    <div class="row">
+        <div class="col-xs-6">
+            <input type="text" class="form-control" placeholder="Default input">
+        </div>
+        <div class="col-xs-6">
+            <select class="form-control">
+                <option>Default select</option>
+            </select>
+        </div>
+    </div>
+    <br>
+    <div class="row">
+        <div class="col-xs-6">
+            <input type="text" class="form-control input-sm" placeholder="Small input">
+        </div>
+        <div class="col-xs-6">
+            <select class="form-control input-sm">
+                <option>Small select</option>
+            </select>
+        </div>
+    </div>
+</form>
+    <div class="col-sm-12 controls" style="margin-top: 30px">
+        <button type="button" class="btn btn-success">Click Me!</button>
+    
+    </div>
