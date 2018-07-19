@@ -26,19 +26,25 @@ class VisitorsController < ApplicationController
     if @visitor.save
       p "=============#{proj_name} ===== project"
       p "================ #{TOKEN} =======token======"
-      new_project_app(proj_name)
-      project_policy_binding(proj_name, current_user.try(:lanid))
-      git_url = git_repo_build(proj_name)
-      @visitor.git_repo_url = git_url
-      @visitor.save
-      pvc_build_container(proj_name,pvc_availble)
-      mysql_build_container(proj_name,pvc_availble)
-      svc_build_container(proj_name)
+      #new_project_app(proj_name)
+      #project_policy_binding(proj_name, current_user.try(:lanid))
+      #git_url = git_repo_build(proj_name)
+      #@visitor.git_repo_url = git_url
+      #@visitor.save
+      test_pvc(proj_name, pvc_availble)
+      #pvc_build_container(proj_name,pvc_availble)
+      #mysql_build_container(proj_name,pvc_availble)
+      #svc_build_container(proj_name)
       flash[:notice] = "project created successful"
       redirect_to visitors_path 
     else
       render :new
     end
+  end
+
+  def test_pvc(project_name, pv)
+    p "======================#{pv.inspect}  ========= pvvvvv"
+    p "=======================#{project_name} ------- project----"
   end
 
   def new_project_app(project_name)
@@ -143,7 +149,7 @@ request.body = JSON.dump({
   "kind" => "PersistentVolumeClaim",
   "apiVersion" => "v1",
   "metadata" => {
-    "name" => pv.present? ? pv.first.pv_name+"_pvc" : nil,
+    "name" => "pocfly1_pvc" : nil,
     "namespace" => project_name,
     "creationTimestamp" => nil
   },
@@ -156,7 +162,7 @@ request.body = JSON.dump({
         "storage" => "50Gi"
       }
     },
-    "volumeName" => pv.present? ? pv.first.pv_name : nil
+    "volumeName" => "pocfly1"
   }
 })
 
@@ -252,7 +258,7 @@ request.body = JSON.dump({
           {
             "name" => "mysql-data",
             "persistentVolumeClaim" => {
-              "claimName" => pv.present? ? pv.first.pv_name+"_pvc" : nil
+              "claimName" => "pocfly1_pvc"
             }
           }
         ]
@@ -330,6 +336,7 @@ response = Net::HTTP.start(uri.hostname, uri.port, req_options) do |http|
   http.request(request)
 end
   project.destroy
+  redirect_to new_visitor_path
   end
 
   private
