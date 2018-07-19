@@ -1,5 +1,5 @@
 class VisitorsController < ApplicationController
-
+  layout 'project_layout'
   def new
     @visitor = Visitor.new
   end
