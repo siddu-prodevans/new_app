@@ -14,6 +14,10 @@ port        ENV.fetch("PORT") { 3000 }
 # Specifies the `environment` that Puma will run in.
 #
 environment ENV.fetch("RAILS_ENV") { "development" }
+if ENV.fetch('RAILS_ENV') == 'development'
+   puts "LOGGER: development => worker_timeout 3600"
+   worker_timeout 3600
+end
 
 # Specifies the number of `workers` to boot in clustered mode.
 # Workers are forked webserver processes. If using threads and workers together

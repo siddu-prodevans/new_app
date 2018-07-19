@@ -1,32 +1,31 @@
-<form style="margin-top: 30px">
+
+<%= form_for @project, :as => :project, :url => visitors_path(@project) do |f| %>
     <div class="row">
         <div class="col-xs-6">
             <label class="col-md-3 control-label">Project Name</label>
-            <input type="text" class="form-control input-lg" placeholder="Large input">
+            <%=f.text_field :project_name,class: "form-control input-lg", placeholder: "Enter Project"%>
+            
         </div>
         <div class="col-xs-6">
             <label class="col-md-3 control-label">Environment</label>
-            <select class="form-control input-lg">
-                <option>Nodejs</option>
-                <option>PHP</option>
+            <%= f.select :env, options_for_select([["Select Env", ""], "Nodejs", "Php"]),{}, {:class => 'form-control input-lg'} %>
 
-            </select>
+           
         </div>
     </div>
     <br>
     <div class="row">
                     
         <div class="col-xs-6">
-                               <label class="col-md-3 control-label">Database</label>
-            <select class="form-control">
-                <option>Mysql</option>
-                <option>PHP</option>
-            </select>
+            <label class="col-md-3 control-label">Database</label>
+                        <%= f.select :db_name, options_for_select([["Select DB", ""], "Mysql", "Postgres"]),{},{:class => 'form-control input-lg'} %>
+            
         </div>
                    
          <div class="col-xs-6">
      <label class="col-md-3 control-label">Storage</label>
-            <input type="text" class="form-control" value="50GB" readonly>
+                        <%=f.text_field :storage,class: "form-control", value: "50GB", readonly: true %>
+            
         </div>
     </div>
     <br>
@@ -35,30 +34,38 @@
         <div class="col-xs-6">
             <label class="col-md-3 control-label">vCPU</label>
             <div class="switch-field">
+                <%= f.radio_button :vcpu, '1', :checked => true %>   
+             
+               <label for="switch_3_left">1</label>
+                              <%= f.radio_button :vcpu, '2' %>
               
-              <input type="radio" id="switch_3_left" name="switch_3" value="yes" checked/>
-               <label for="switch_3_left">One</label>
-              <input type="radio" id="switch_3_center" name="switch_3" value="maybe" />
-              <label for="switch_3_center">Two</label>
-              <input type="radio" id="switch_3_right" name="switch_3" value="no" />
-              <label for="switch_3_right">Three</label>
+              <label for="switch_3_center">2</label>
+                              <%= f.radio_button :vcpu, '3'%>
+              
+              <label for="switch_3_right">3</label>
            </div>
         </div>
         
         <div class="col-xs-6">
            <label class="col-md-3 control-label">Memory</label>
             <div class="switch-field">
-             <input type="radio" id="switch_3_left" name="memory" value="yes" checked/>
+                             <%= f.radio_button :memory, '2GB', :checked => true %>
+             
               <label for="switch_3_left">2GB</label>
-              <input type="radio" id="switch_3_center" name="memory" value="maybe" />
+                              <%= f.radio_button :memory, '4GB'%>
+              
                <label for="switch_3_center">4GB</label>
-			<input type="radio" id="switch_3_right" name="memory" value="no" />
+                       <%= f.radio_button :memory, '8GB'%>
+		
               <label for="switch_3_right">8GB</label>
-                                      <input type="radio" id="switch_3_right" name="memory" value="no" />
+                               <%= f.radio_button :memory, '16GB' %>
+                                     
               <label for="switch_3_right">16GB</label>
-                        <input type="radio" id="switch_3_right" name="memory" value="no" />
+                               <%= f.radio_button :memory, '32GB'%>
+                       
               <label for="switch_3_right">32GB</label>
-                                      <input type="radio" id="switch_3_right" name="memory" value="no" />
+                                  <%= f.radio_button :memory, '64GB' %>
+                                
               <label for="switch_3_right">64GB</label>
             </div>
         </div>
@@ -66,14 +73,16 @@
     <div class="row">
        <div class="col-xs-6">
                  <label class="col-md-3 control-label">Expiration Date</label>
-            <input type="text" class="form-control" >
+           <%=f.text_field :exp_date, class: "form-control"%>
+           
         </div>
     <div>
-</form>
-    <div class="col-sm-12 controls" style="margin-top: 30px">
-        <button type="button" class="btn btn-success">Click Me!</button>
-    
+     <div class="col-sm-12 controls" style="margin-top: 30px">
+       <%=f.submit 'Create Project', class: "btn btn-success"%>
+       
     </div>
+<%end%>
+    
 
 
 

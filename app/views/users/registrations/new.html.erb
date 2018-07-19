@@ -17,7 +17,8 @@
         <div class="form-group">
           <label for="firstname" class="col-md-3 control-label">Lanid</label>
           <div class="col-md-9">
-              <input type="text" class="form-control" name="lanid" placeholder="LanID">
+                          <%= f.text_field :lanid, class: "form-control", title: "Use global Lanid", placeholder: "Enter LanID" %>
+             
           </div>
         </div>
         
@@ -31,13 +32,15 @@
         <div class="form-group">
           <label for="firstname" class="col-md-3 control-label">First Name</label>
           <div class="col-md-9">
-              <input type="text" class="form-control" name="firstname" placeholder="First Name">
+                                        <%= f.text_field :first_name, class: "form-control", placeholder: "Enter Firstname" %>
+             
           </div>
         </div>
         <div class="form-group">
           <label for="lastname" class="col-md-3 control-label">Last Name</label>
           <div class="col-md-9">
-              <input type="text" class="form-control" name="lastname" placeholder="Last Name">
+                                        <%= f.text_field :last_name, class: "form-control", placeholder: "Enter Lastname" %>
+             
           </div>
         </div>
         <div class="form-group">
@@ -57,7 +60,7 @@
         </div>
         <div class="form-group">
             <!-- Button -->                                        
-            <div class="col-md-offset-3 col-md-9">
+            <div class="col-md-offset-3 col-md-9" style="margin-top: 8px;">
                 <%=f.submit 'Sign Up', class: "btn btn-info"%>
             </div>
         </div>
@@ -66,4 +69,6 @@
     </div>
   </div>
 </div>
-
+<style>
+  input.form-control{margin-top: 8px;}
+</style>

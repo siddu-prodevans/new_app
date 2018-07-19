@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class Users::RegistrationsController < Devise::RegistrationsController
+  #before_action :authenticate_user!
   # before_action :configure_sign_up_params, only: [:create]
   # before_action :configure_account_update_params, only: [:update]
 
@@ -13,7 +14,8 @@ class Users::RegistrationsController < Devise::RegistrationsController
    def create
      p "---------------------------"
      build_resource(sign_up_params)
-
+     p "======#{resource.lanid}"
+     #resource.lanid = params
     if resource.save
       if resource.active_for_authentication?
         set_flash_message :notice, :signed_up if is_navigational_format?

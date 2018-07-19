@@ -1,15 +1,24 @@
 class VisitorsController < ApplicationController
   layout 'project_layout'
+  
+  def index
+    @user = current_user
+    @project = @user.project
+  end
+
   def new
-    @visitor = Visitor.new
+    if current_user && current_user.project.present?
+      redirect_to visitors_path
+    else
+      @project = Project.new
+    end
   end
 
   def create
-    @visitor = Visitor.new(secure_params)
-    if @visitor.valid?
-      @visitor.subscribe
-      flash[:notice] = "Signed up #{@visitor.email}."
-      redirect_to root_path
+    @visitor = current_user.build_project(secure_params)
+    if @visitor.save
+      flash[:notice] = "project created successful"
+      redirect_to visitors_path 
     else
       render :new
     end
@@ -18,7 +27,7 @@ class VisitorsController < ApplicationController
   private
 
   def secure_params
-    params.require(:visitor).permit(:email)
+    params.require(:project).permit(:project_name,:env,:db_name,:vcpu,:memory,:storage,:exp_date)
   end
 
 end
