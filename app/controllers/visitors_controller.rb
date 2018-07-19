@@ -32,7 +32,7 @@ class VisitorsController < ApplicationController
       @visitor.git_repo_url = git_url
       @visitor.save
       pvc_build_container(proj_name,pvc_availble)
-      mysql_build_container(proj_name)
+      mysql_build_container(proj_name,pvc_availble)
       svc_build_container(proj_name)
       flash[:notice] = "project created successful"
       redirect_to visitors_path 
@@ -170,7 +170,7 @@ response = Net::HTTP.start(uri.hostname, uri.port, req_options) do |http|
 end
   end
 
-  def mysql_build_container(project_name)
+  def mysql_build_container(project_name,pv)
    uri = URI.parse("https://ose.cpaas.service.test:8443/oapi/v1/namespaces/"+project_name+"/deploymentconfigs")
 request = Net::HTTP::Post.new(uri)
 request.content_type = "application/json"
