@@ -70,9 +70,8 @@
       <div id="collapse3" class="panel-collapse collapse">
         <div class="panel-body well" style="margin:3%">
           <ul class="list-group">
-            <li class="list-group-item"><strong>Project startdate:</strong><%=@project.try(:exp_date)%></li>
-            <li class="list-group-item"><strong>Project end-date:</strong><%=Date.parse(@project.try(:exp_date)) + 2.months%>
-            <li class="list-group-item"><strong>Days Remaing:</strong><%=(Date.parse(@project.try(:exp_date)) + 2.months - Date.parse(@project.try(:exp_date))).to_i%> </li>
+            <li class="list-group-item"><strong>Project startdate:</strong><%=Time.now%></li>
+            <li class="list-group-item"><strong>Days Remaing:</strong><span>30 Days</span> </li>
 
 	    <li class="list-group-item"><strong>Jenkins URL: jenkins.apps.cpaas.service.test</strong>
 		<br>

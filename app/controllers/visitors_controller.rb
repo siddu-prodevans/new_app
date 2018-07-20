@@ -33,9 +33,9 @@ class VisitorsController < ApplicationController
       @visitor.save
       #test_pvc(proj_name, pvc_availble)
       pvc_build_container(proj_name,pvc_availble)
-      pvc_availble.pv_used = 1
-      pvc_availble.project_name = @visitor.try(:project_name)
-      pvc_availble.save
+      #pvc_availble.pv_used = 1
+      #pvc_availble.project_name = @visitor.try(:project_name)
+      #pvc_availble.save
       mysql_build_container(proj_name,pvc_availble)
       svc_build_container(proj_name)
       flash[:notice] = "project created successful"
@@ -259,10 +259,7 @@ request.body = JSON.dump({
         "terminationGracePeriodSeconds" => 30,
         "volumes" => [
           {
-            "name" => "mysql-data",
-            "persistentVolumeClaim" => {
-              "claimName" => pv.present? ? pv.pv_name+"-pvc" : nil
-            }
+            "name" => "mysql-data"
           }
         ]
       }
@@ -339,9 +336,9 @@ response = Net::HTTP.start(uri.hostname, uri.port, req_options) do |http|
   http.request(request)
 end
   project.destroy
-  pv_update = PvContainer.where(project_name: project.project_name).first
-  pv_update.pv_used = 0
-  pv_update.save
+  #pv_update = PvContainer.where(project_name: project.project_name).first
+  #pv_update.pv_used = 0
+  #pv_update.save
   redirect_to new_visitor_path
   end
 
