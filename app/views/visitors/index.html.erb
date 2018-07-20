@@ -15,6 +15,7 @@
           <ul class="list-group">
             <li class="list-group-item"><strong>LanId: <%=@user.try(:lanid)%></strong></li>
             <li class="list-group-item"><strong>Console URL: </strong><span>https://ose.cpaas.service.test:8443</span></li>
+            <li class="list-group-item"><strong>To intaract with OpenShift Platform you will need the OC client </strong></li>
             <li class="list-group-item"><h3>oc Login Steps</h3></strong>
                 <ul class="inside">
                 <li>oc login https://ose.cpaas.service.test:8443</li>
@@ -23,7 +24,13 @@
                 </ul>
             </li>
             <li class="list-group-item"><strong>App Url:</strong></li>
-            <li class="list-group-item"><strong>Db Connect:</strong></li>
+            <li class="list-group-item"><strong>Db Connect:</strong>
+              <ul class="inside">
+                <li>Host: MysQL </li>
+                <li>User: admin </li>
+                <li>Password: ******* </li>
+              </ul>
+            </li>
           </ul> 
         </div>
       </div>
@@ -42,13 +49,13 @@
             <li class="list-group-item"><strong>Git URL: </strong> <%=@project.try(:git_repo_url)%></li>
             <li class="list-group-item"><h3>Commands:</h3>
             <ul class="inside">
-                <li>git clone repository url</li>
+                <li>git clone <strong> <%=@project.try(:git_repo_url)%></strong></li>
                 <li>git add .</li>
                 <li>git commit -m "message"</li>
                 <li>git push origin</li>
             </ul>
           </li>
-<li class="list-group-item"><b>Username:- pocfly</b><br><b>Password:- pocfly</b></li>
+<li class="list-group-item"><b>Username:- pocfly</b><br><b>Password:- ********</b></li>
           </ul>
           <div class="col-md5"><button type="submit" class="btn btn-primary">Start Build</button></div>
           </div>
@@ -63,14 +70,14 @@
       <div id="collapse3" class="panel-collapse collapse">
         <div class="panel-body well" style="margin:3%">
           <ul class="list-group">
-            <li class="list-group-item"><strong>Project startdate:</strong><%=@project.exp_date%></li>
-            <li class="list-group-item"><strong>Project end-date:</strong><%=Date.parse(@project.exp_date) + 2.months%>
-            <li class="list-group-item"><strong>Days Remaing:</strong></li>
+            <li class="list-group-item"><strong>Project startdate:</strong><%=@project.try(:exp_date)%></li>
+            <li class="list-group-item"><strong>Project end-date:</strong><%=Date.parse(@project.try(:exp_date)) + 2.months%>
+            <li class="list-group-item"><strong>Days Remaing:</strong><%=(Date.parse(@project.try(:exp_date)) + 2.months - Date.parse(@project.try(:exp_date))).to_i%> </li>
 
 	    <li class="list-group-item"><strong>Jenkins URL: jenkins.apps.cpaas.service.test</strong>
 		<br>
 <b>Username :- admin</b><br>
-<b>Password :- Nokia@123</b>
+<b>Password :- ********</b>
 </li>
             <li class="list-group-item"><strong>Extend Project date:</strong></li>
 	    <li class="list-group-item">
@@ -78,6 +85,19 @@
                <input type="text" class="form-control input-sm"><span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>
             </span>
 	   </li>
+           <li class ="list-group-item"><strong>Build Application: </strong>
+             <br>
+             <% if @project.env == "Php"%>
+             <b>oc new-app  --docker-image=172.30.200.79:5000/openshift/php-56-rhel7:lastest~<%=@project.try(:git_repo_url)%> --insecure-registry</b>
+             <%else%>
+             <b>oc new-app  --docker-image=172.30.200.79:5000/openshift/nodejs-4-rhel7:lastest~<%=@project.try(:git_repo_url)%> --insecure-registry</b>
+             <%end%>
+           </li>
+	  <li class ="list-group-item"><strong>Useful commands: </strong><br>
+1. <b>oc get pods</b> :- For pod status<br>
+2. <b>oc describe pod pod_name</b> :- For detailed description<br>
+3. <b>oc logs pod_name</b> : For pod logs
+</li>
           </ul> 
         </div>
       </div>

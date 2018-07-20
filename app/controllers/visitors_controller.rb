@@ -21,7 +21,7 @@ class VisitorsController < ApplicationController
 
   def create
     @visitor = current_user.build_project(secure_params)
-    pvc_availble = PvContainer.where(pv_used: 0)
+    pvc_availble = PvContainer.where(pv_used: 0).first
     proj_name =  @visitor.try(:project_name)
     if @visitor.save
       p "=============#{proj_name} ===== project"
@@ -33,6 +33,9 @@ class VisitorsController < ApplicationController
       @visitor.save
       #test_pvc(proj_name, pvc_availble)
       pvc_build_container(proj_name,pvc_availble)
+      pvc_availble.pv_used = 1
+      pvc_availble.project_name = @visitor.try(:project_name)
+      pvc_availble.save
       mysql_build_container(proj_name,pvc_availble)
       svc_build_container(proj_name)
       flash[:notice] = "project created successful"
@@ -149,7 +152,7 @@ request.body = JSON.dump({
   "kind" => "PersistentVolumeClaim",
   "apiVersion" => "v1",
   "metadata" => {
-    "name" => pv.present? ? pv.first.pv_name+"-pvc" : nil,
+    "name" => pv.present? ? pv.pv_name+"-pvc" : nil,
     "namespace" => project_name,
     "creationTimestamp" => nil
   },
@@ -162,7 +165,7 @@ request.body = JSON.dump({
         "storage" => "50Gi"
       }
     },
-    "volumeName" => pv.present? ? pv.first.pv_name : nil
+    "volumeName" => pv.present? ? pv.pv_name : nil
   }
 })
 
@@ -258,7 +261,7 @@ request.body = JSON.dump({
           {
             "name" => "mysql-data",
             "persistentVolumeClaim" => {
-              "claimName" => pv.present? ? pv.first.pv_name+"-pvc" : nil
+              "claimName" => pv.present? ? pv.pv_name+"-pvc" : nil
             }
           }
         ]
@@ -336,6 +339,9 @@ response = Net::HTTP.start(uri.hostname, uri.port, req_options) do |http|
   http.request(request)
 end
   project.destroy
+  pv_update = PvContainer.where(project_name: project.project_name).first
+  pv_update.pv_used = 0
+  pv_update.save
   redirect_to new_visitor_path
   end
 
