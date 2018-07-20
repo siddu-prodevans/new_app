@@ -1,4 +1,5 @@
 class VisitorsController < ApplicationController
+  
   layout 'project_layout'
    require 'net/http'
    require 'uri'
@@ -679,42 +680,6 @@ response = Net::HTTP.start(uri.hostname, uri.port, req_options) do |http|
 end
 
 
-uri = URI.parse("http://ose.cpaas.service.test:8443/oapi/v1/namespaces/"+params[:project_name]+"/routes")
-request = Net::HTTP::Post.new(uri)
-request.content_type = "application/json"
-request["Authorization"] = TOKEN
-request["Accept"] = "application/json"
-request.body = JSON.dump({
-  "kind" => "Route",
-  "apiVersion" => "v1",
-  "metadata" => {
-    "name" => "node",
-    "creationTimestamp" => nil,
-    "labels" => {
-      "app" => "node"
-    }
-  },
-  "spec" => {
-    "host" => "",
-    "to" => {
-      "kind" => "",
-      "name" => "node",
-      "weight" => nil
-    },
-    "port" => {
-      "targetPort" => "8080-tcp"
-    }
-  }
-})
-
-req_options = {
-  use_ssl: uri.scheme == "https",
-  verify_mode: OpenSSL::SSL::VERIFY_NONE
-}
-
-response = Net::HTTP.start(uri.hostname, uri.port, req_options) do |http|
-  http.request(request)
-end
   redirect_to visitors_path 
   end
 
