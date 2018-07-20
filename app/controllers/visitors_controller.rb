@@ -342,6 +342,300 @@ end
   redirect_to new_visitor_path
   end
 
+
+  def new_build
+   uri = URI.parse("https://ose.cpaas.service.test:8443/oapi/v1/namespaces/"+params[:project_name]+"/imagestreamimports")
+request = Net::HTTP::Post.new(uri)
+request.content_type = "application/json"
+request["Accept"] = "application/json"
+request["Authorization"] = TOKEN
+request.body = JSON.dump({
+  "kind" => "ImageStreamImport",
+  "apiVersion" => "v1",
+  "metadata" => {
+    "name" => "newapp",
+    "creationTimestamp" => nil
+  },
+  "spec" => {
+    "import" => false,
+    "images" => [
+      {
+        "from" => {
+          "kind" => "DockerImage",
+          "name" => "172.30.200.79:5000/openshift/nodejs-4-rhel7:latest"
+        },
+        "importPolicy" => {
+          "insecure" => true
+        }
+      }
+    ]
+  }
+})
+
+req_options = {
+  use_ssl: uri.scheme == "https",
+  verify_mode: OpenSSL::SSL::VERIFY_NONE,
+}
+
+response = Net::HTTP.start(uri.hostname, uri.port, req_options) do |http|
+  http.request(request)
+end
+   
+uri = URI.parse("https://ose.cpaas.service.test:8443/apis/image.openshift.io/v1/namespaces/"+params[:project_name]+"/imagestreams")
+request = Net::HTTP::Post.new(uri)
+request.content_type = "application/json"
+request["Authorization"] = TOKEN
+request["Accept"] = "application/json,"
+request.body = JSON.dump({
+  "kind" => "ImageStream",
+  "apiVersion" => "image.openshift.io/v1",
+  "metadata" => {
+    "name" => "nodejs-4-rhel7",
+    "creationTimestamp" => nil,
+    "labels" => {
+      "app" => "node"
+    },
+    "annotations" => {
+      "openshift.io/generated-by" => "OpenShiftNewApp"
+    }
+  },
+  "spec" => {
+    "lookupPolicy" => {
+      "local" => false
+    },
+    "tags" => [
+      {
+        "name" => "latest",
+        "annotations" => {
+          "openshift.io/imported-from" => "172.30.200.79:5000/openshift/nodejs-4-rhel7:latest"
+        },
+        "from" => {
+          "kind" => "DockerImage",
+          "name" => "172.30.200.79:5000/openshift/nodejs-4-rhel7:latest"
+        },
+        "generation" => nil,
+        "importPolicy" => {
+          "insecure" => true
+        }
+      }
+    ]
+  }
+})
+
+req_options = {
+  use_ssl: uri.scheme == "https",
+  verify_mode: OpenSSL::SSL::VERIFY_NONE,
+}
+
+response = Net::HTTP.start(uri.hostname, uri.port, req_options) do |http|
+  http.request(request)
+end
+
+
+   uri = URI.parse("https://ose.cpaas.service.test:8443/apis/image.openshift.io/v1/namespaces/"+params[:project_name]+"/imagestreams")
+request = Net::HTTP::Post.new(uri)
+request.content_type = "application/json"
+request["Authorization"] = TOKEN
+request["Accept"] = "application/json,"
+request.body = JSON.dump({
+  "kind" => "ImageStream",
+  "apiVersion" => "image.openshift.io/v1",
+  "metadata" => {
+    "name" => "node",
+    "creationTimestamp" => nil,
+    "labels" => {
+      "app" => "node"
+    },
+    "annotations" => {
+      "openshift.io/generated-by" => "OpenShiftNewApp"
+    }
+  },
+  "spec" => {
+    "lookupPolicy" => {
+      "local" => false
+    }
+  }
+})
+
+req_options = {
+  use_ssl: uri.scheme == "https",
+  verify_mode: OpenSSL::SSL::VERIFY_NONE,
+}
+
+response = Net::HTTP.start(uri.hostname, uri.port, req_options) do |http|
+  http.request(request)
+end
+
+
+
+uri = URI.parse("https://ose.cpaas.service.test:8443/apis/build.openshift.io/v1/namespaces/"+params[:project_name]+"/buildconfigs")
+request = Net::HTTP::Post.new(uri)
+request.content_type = "application/json"
+request["Accept"] = "application/json,"
+request["Authorization"] = TOKEN
+request.body = JSON.dump({
+  "kind" => "BuildConfig",
+  "apiVersion" => "build.openshift.io/v1",
+  "metadata" => {
+    "name" => "node",
+    "creationTimestamp" => nil,
+    "labels" => {
+      "app" => "node"
+    },
+    "annotations" => {
+      "openshift.io/generated-by" => "OpenShiftNewApp"
+    }
+  },
+  "spec" => {
+    "triggers" => [
+      {
+        "type" => "GitHub",
+        "github" => {
+          "secret" => "g43U8Hu5hRkVUTVYQjWr"
+        }
+      },
+      {
+        "type" => "Generic",
+        "generic" => {
+          "secret" => "jekb8UAKPC56VZBnLSrt"
+        }
+      },
+      {
+        "type" => "ConfigChange"
+      },
+      {
+        "type" => "ImageChange"
+      }
+    ],
+    "source" => {
+      "type" => "Git",
+      "git" => {
+        "uri" => "http://gogs.apps.cpaas.service.test/pocfly/Nodejs.git"
+      }
+    },
+    "strategy" => {
+      "type" => "Source",
+      "sourceStrategy" => {
+        "from" => {
+          "kind" => "ImageStreamTag",
+          "name" => "nodejs-4-rhel7:latest"
+        }
+      }
+    },
+    "output" => {
+      "to" => {
+        "kind" => "ImageStreamTag",
+        "name" => "node:latest"
+      }
+    },
+    "nodeSelector" => nil
+  },
+  "status" => {
+    "lastVersion" => 0
+  }
+})
+
+req_options = {
+  use_ssl: uri.scheme == "https",
+  verify_mode: OpenSSL::SSL::VERIFY_NONE,
+}
+
+response = Net::HTTP.start(uri.hostname, uri.port, req_options) do |http|
+  http.request(request)
+end
+
+
+uri = URI.parse("https://ose.cpaas.service.test:8443/apis/apps.openshift.io/v1/namespaces/"+params[:project_name]+"/deploymentconfigs")
+request = Net::HTTP::Post.new(uri)
+request.content_type = "application/json"
+request["Accept"] = "application/json,"
+request["Authorization"] = TOKEN
+request.body = JSON.dump({
+  "kind" => "DeploymentConfig",
+  "apiVersion" => "apps.openshift.io/v1",
+  "metadata" => {
+    "name" => "node",
+    "creationTimestamp" => nil,
+    "labels" => {
+      "app" => "node"
+    },
+    "annotations" => {
+      "openshift.io/generated-by" => "OpenShiftNewApp"
+    }
+  },
+  "spec" => {
+    "triggers" => [
+      {
+        "type" => "ConfigChange"
+      },
+      {
+        "type" => "ImageChange",
+        "imageChangeParams" => {
+          "automatic" => true,
+          "containerNames" => [
+            "node"
+          ],
+          "from" => {
+            "kind" => "ImageStreamTag",
+            "name" => "node:latest"
+          }
+        }
+      }
+    ],
+    "replicas" => 1,
+    "test" => false,
+    "selector" => {
+      "app" => "node",
+      "deploymentconfig" => "node"
+    },
+    "template" => {
+      "metadata" => {
+        "creationTimestamp" => nil,
+        "labels" => {
+          "app" => "node",
+          "deploymentconfig" => "node"
+        },
+        "annotations" => {
+          "openshift.io/generated-by" => "OpenShiftNewApp"
+        }
+      },
+      "spec" => {
+        "containers" => [
+          {
+            "name" => "node",
+            "image" => "node:latest",
+            "ports" => [
+              {
+                "containerPort" => 8080,
+                "protocol" => "TCP"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "status" => {
+    "latestVersion" => 0,
+    "observedGeneration" => 0,
+    "replicas" => 0,
+    "updatedReplicas" => 0,
+    "availableReplicas" => 0,
+    "unavailableReplicas" => 0
+  }
+})
+
+req_options = {
+  use_ssl: uri.scheme == "https",
+  verify_mode: OpenSSL::SSL::VERIFY_NONE,
+}
+
+response = Net::HTTP.start(uri.hostname, uri.port, req_options) do |http|
+  http.request(request)
+end
+  redirect_to visitors_path 
+  end
+
   private
 
   def secure_params
