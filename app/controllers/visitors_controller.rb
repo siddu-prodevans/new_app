@@ -633,6 +633,88 @@ req_options = {
 response = Net::HTTP.start(uri.hostname, uri.port, req_options) do |http|
   http.request(request)
 end
+
+
+  uri = URI.parse("https://ose.cpaas.service.test:8443/api/v1/namespaces/"+params[:project_name]+"/services")
+request = Net::HTTP::Post.new(uri)
+request.content_type = "application/json"
+request["Accept"] = "application/json,"
+request["Authorization"] = TOKEN
+request.body = JSON.dump({
+  "kind" => "Service",
+  "apiVersion" => "v1",
+  "metadata" => {
+    "name" => "node",
+    "creationTimestamp" => nil,
+    "labels" => {
+      "app" => "node"
+    },
+    "annotations" => {
+      "openshift.io/generated-by" => "OpenShiftNewApp"
+    }
+  },
+  "spec" => {
+    "ports" => [
+      {
+        "name" => "8080-tcp",
+        "protocol" => "TCP",
+        "port" => 8080,
+        "targetPort" => 8080
+      }
+    ],
+    "selector" => {
+      "app" => "node",
+      "deploymentconfig" => "node"
+    }
+  }
+})
+
+req_options = {
+  use_ssl: uri.scheme == "https",
+  verify_mode: OpenSSL::SSL::VERIFY_NONE,
+}
+
+response = Net::HTTP.start(uri.hostname, uri.port, req_options) do |http|
+  http.request(request)
+end
+
+
+uri = URI.parse("http://ose.cpaas.service.test:8443/oapi/v1/namespaces/"+params[:project_name]+"/routes")
+request = Net::HTTP::Post.new(uri)
+request.content_type = "application/json"
+request["Authorization"] = TOKEN
+request["Accept"] = "application/json"
+request.body = JSON.dump({
+  "kind" => "Route",
+  "apiVersion" => "v1",
+  "metadata" => {
+    "name" => "node",
+    "creationTimestamp" => nil,
+    "labels" => {
+      "app" => "node"
+    }
+  },
+  "spec" => {
+    "host" => "",
+    "to" => {
+      "kind" => "",
+      "name" => "node",
+      "weight" => nil
+    },
+    "port" => {
+      "targetPort" => "8080-tcp"
+    }
+  }
+})
+
+req_options = {
+  use_ssl: uri.scheme == "https",
+  verify_mode: OpenSSL::SSL::VERIFY_NONE
+}
+
+response = Net::HTTP.start(uri.hostname, uri.port, req_options) do |http|
+  http.request(request)
+end
   redirect_to visitors_path 
   end
 
