@@ -1,8 +1,8 @@
 
     <div style="margin-left:100px">
-      <h4>Project Name: <%=@project.project_name%></h4>
+      <h2>Project Name: <%=@project.project_name%></h2>
     </div>
-    <main role="main" class="container">
+    <main role="main" class="container panel" style="padding: 2%;border: 1px solid #eee;">
         <div class="panel-group" id="accordion">
     <div class="panel panel-default">
       <div class="panel-heading">
@@ -11,19 +11,19 @@
         </h4>
       </div>
       <div id="collapse1" class="panel-collapse collapse in">
-        <div class="panel-body">
-          <ul style="list-style-type:square">
-            <li><strong>Lanid: <%=@user.try(:lanid)%></strong></li>
-            <li><strong>URL: </strong><span>https://ose.cpaas.service.test:8443</span></li>
-            <li><strong>Oc Login Setps</strong>
+        <div class="panel-body well" style="margin: 3%;">
+          <ul class="list-group">
+            <li class="list-group-item"><strong>LanId: <%=@user.try(:lanid)%></strong></li>
+            <li class="list-group-item"><strong>Console URL: </strong><span>https://ose.cpaas.service.test:8443</span></li>
+            <li class="list-group-item"><h3>oc Login Steps</h3></strong>
                 <ul class="inside">
                 <li>oc login https://ose.cpaas.service.test:8443</li>
                 <li>Username: <%=@user.try(:lanid)%></li>
                 <li>Password: (Your globaltest_account_password)</li>
                 </ul>
             </li>
-            <li><strong>App Url:</strong></li>
-            <li><strong>Db Connect:</strong></li>
+            <li class="list-group-item"><strong>App Url:</strong></li>
+            <li class="list-group-item"><strong>Db Connect:</strong></li>
           </ul> 
         </div>
       </div>
@@ -37,9 +37,10 @@
         </h4>
       </div>
       <div id="collapse2" class="panel-collapse collapse">
-        <div class="panel-body"><ul style="list-style-type:square">
-            <li><strong>Git URL: </strong> <%=@project.try(:git_repo_url)%></li>
-            <li><strong>Commands:</strong>
+        <div class="panel-body well" style="margin:3%">
+	  <ul class="list-group">
+            <li class="list-group-item"><strong>Git URL: </strong> <%=@project.try(:git_repo_url)%></li>
+            <li class="list-group-item"><h3>Commands:</h3>
             <ul class="inside">
                 <li>git clone repository url</li>
                 <li>git add .</li>
@@ -47,6 +48,7 @@
                 <li>git push origin</li>
             </ul>
           </li>
+<li class="list-group-item"><b>Username:- pocfly</b><br><b>Password:- pocfly</b></li>
           </ul>
           <div class="col-md5"><button type="submit" class="btn btn-primary">Start Build</button></div>
           </div>
@@ -59,15 +61,23 @@
         </h4>
       </div>
       <div id="collapse3" class="panel-collapse collapse">
-        <div class="panel-body">
-          <ul style="list-style-type:none">
-            <li><strong>Project startdate:</strong></li>
-            <li><strong>Project enddate:</strong></li>
-            <li><strong>Days Remaing:</strong></li>
-            <li><strong>Extend Project date:</strong></li>
-            <div class="input-group date" style="width:20%">
+        <div class="panel-body well" style="margin:3%">
+          <ul class="list-group">
+            <li class="list-group-item"><strong>Project startdate:</strong><%=@project.exp_date%></li>
+            <li class="list-group-item"><strong>Project end-date:</strong><%=Date.parse(@project.exp_date) + 2.months%>
+            <li class="list-group-item"><strong>Days Remaing:</strong></li>
+
+	    <li class="list-group-item"><strong>Jenkins URL: jenkins.apps.cpaas.service.test</strong>
+		<br>
+<b>Username :- admin</b><br>
+<b>Password :- Nokia@123</b>
+</li>
+            <li class="list-group-item"><strong>Extend Project date:</strong></li>
+	    <li class="list-group-item">
+            <span class="input-group date" style="width:20%">
                <input type="text" class="form-control input-sm"><span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>
-            </div>
+            </span>
+	   </li>
           </ul> 
         </div>
       </div>

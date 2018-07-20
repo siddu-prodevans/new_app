@@ -1,37 +1,38 @@
-<div style="margin-top:30px">
+<div style="margin-top:35px; padding:4%; border:1px solid #eee" class="col-md-6 col-md-offset-2 panel">
+<h2>Project On-boarding</h2>
 <%= form_for @project, :as => :project, :url => visitors_path(@project) do |f| %>
-    <div class="row">
-        <div class="col-xs-6">
+    <div class="">
+        <div class="col-sm-12">
             <label class="col-md-3 control-label">Project Name</label>
-            <%=f.text_field :project_name,class: "form-control input-lg", placeholder: "Enter Project"%>
+            <%=f.text_field :project_name,class: "form-control", placeholder: "Enter Project"%>
             
         </div>
-        <div class="col-xs-6">
+        <div class="col-sm-12">
             <label class="col-md-3 control-label">Environment</label>
-            <%= f.select :env, options_for_select([["Select Env", ""], "Nodejs", "Php"]),{}, {:class => 'form-control input-lg'} %>
+            <%= f.select :env, options_for_select([["Select Env", ""], "Nodejs", "Php"]),{}, {:class => 'form-control'} %>
 
            
         </div>
     </div>
     <br>
-    <div class="row">
+    <div class="">
                     
-        <div class="col-xs-6">
+        <div class="col-sm-12">
             <label class="col-md-3 control-label">Database</label>
-                        <%= f.select :db_name, options_for_select([["Select DB", ""], "Mysql", "Postgres"]),{},{:class => 'form-control input-lg'} %>
+                        <%= f.select :db_name, options_for_select([["Select DB", ""], "Mysql", "Postgres"]),{},{:class => 'form-control '} %>
             
         </div>
                    
-         <div class="col-xs-6">
+         <div class="col-sm-12">
      <label class="col-md-3 control-label">Storage</label>
-                        <%=f.text_field :storage,class: "form-control input-lg", value: "50GB", readonly: true %>
+                        <%=f.text_field :storage,class: "form-control ", value: "50GB", readonly: true %>
             
         </div>
     </div>
     <br>
-    <div class="row">
+    <div class="">
                    
-        <div class="col-xs-6">
+        <div class="col-sm-12">
             <label class="col-md-3 control-label">vCPU</label>
            <div class="switch-field">
       
@@ -45,7 +46,7 @@
       <label for="switch_10_right">4</label>
     </div>
         </div>
-        <div class="col-xs-6">
+        <div class="col-sm-12">
             <label class="col-md-3 control-label">Memory</label>
            <div class="memory-field">
       <input type="radio" id="switch_4_left" name="project[memory]" value="2GB" checked/>
@@ -62,8 +63,8 @@
     </div>
         </div>
     </div>
-    <div class="row">
-       <div class="col-xs-6">
+    <div class="">
+       <div class="col-s-12">
                  <label class="col-md-3 control-label">Expiration Date</label>
              
              <div class="input-group date" id="datepicker1" style="width:30%">
@@ -80,6 +81,9 @@
 </div>
 
 <style>
+.col-sm-12{
+  margin: 0px 0px 22px 0px !important;
+}
 .switch-field {
   font-family: "Lucida Grande", Tahoma, Verdana, sans-serif;
 	overflow: hidden;
