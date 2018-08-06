@@ -1,18 +1,16 @@
 development:
-  adapter: mysql2
-  encoding: utf8
+  adapter: postgresql
+  encoding: unicode
   database: pocfly_dev
+  pool: 5
   username: root
-  password: Prodevans@123
-  host: 127.0.0.1
-  port: 3306
+  password: 
 
 production:
-  adapter: mysql2
-  encoding: utf8
+  adapter: postgresql
+  encoding: unicode
   database: pocfly_prod
+  pool: 5
   username: root
-  password: Prodevans@123
-  host: 127.0.0.1
-  port: 3306
+  password:
 
