@@ -37,9 +37,11 @@ group :development do
 end
 group :development, :test do
   gem 'mysql2', '~> 0.3.18'
+  #gem 'pg'
 end
 group :production do
   #gem 'pg'
+  gem 'mysql2', '~> 0.3.18'
 end
 group :test do
   gem 'minitest-spec-rails'
