@@ -36,7 +36,7 @@ group :development do
   gem 'rails_layout'
 end
 group :development, :test do
-  gem 'mysql2', '~> 0.3.18'
+  #gem 'mysql2', '~> 0.3.18'
   #gem 'pg'
 end
 group :production do
