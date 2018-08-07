@@ -4,7 +4,15 @@ development:
   database: pocfly_dev
   pool: 5
   username: root
-  password: 
+  password: Redhat@123
+
+test:
+  adapter: postgresql
+  encoding: unicode
+  database: pocfly_test
+  pool: 5
+  username: root
+  password: Redhat@123
 
 production:
   adapter: postgresql
@@ -12,5 +20,5 @@ production:
   database: pocfly_prod
   pool: 5
   username: root
-  password:
+  password: Redhat@123
 
