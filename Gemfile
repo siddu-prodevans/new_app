@@ -14,6 +14,7 @@ gem 'jbuilder', '~> 2.5'
 gem 'execjs'
 gem 'httparty', '~> 0.14.0'
 gem 'therubyracer'
+gem 'mysql2', '~> 0.3.18'
 group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
   gem 'capybara', '~> 2.13'
