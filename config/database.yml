@@ -1,4 +1,4 @@
-<% user =  ENV["POSTGRESQL_USER"]
+<% user =  ENV["POSTGRESQL_USER"] %>
 <% password = ENV["POSTGRESQL_PASSWORD"] %>
 <% db_service = ENV.fetch("DATABASE_SERVICE_NAME","").upcase %>
 
