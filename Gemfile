@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 
 
-ruby '2.3.6'
+ruby '2.4.3'
 gem 'rails', '~> 5.1.2'
 gem 'devise'
 # Rails defaults
