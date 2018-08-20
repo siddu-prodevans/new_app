@@ -1,25 +1,13 @@
-development:
-  adapter: postgresql
-  encoding: unicode
-  database: pocfly_dev
-  pool: 5
-  username: root
-  password: Redhat@123
+<% user =  ENV["POSTGRESQL_USER"]
+<% password = ENV["POSTGRESQL_PASSWORD"] %>
+<% db_service = ENV.fetch("DATABASE_SERVICE_NAME","").upcase %>
 
-test:
+default: &default
   adapter: postgresql
   encoding: unicode
-  database: pocfly_test
   pool: 5
-  username: root
-  password: Redhat@123
-
-production:
-  adapter: postgresql
-  encoding: unicode
-  database: pocfly_prod
-  pool: 5
-  username: root
-  password: Redhat@123
-  host: localhost
-  port: 5432
+  username: <%= user %>
+  password: <%= password %>
+  host: <%= ENV["#{db_service}_SERVICE_HOST"] %>
+  port: <%= ENV["#{db_service}_SERVICE_PORT"] %>
+  database: <%= ENV["POSTGRESQL_DATABASE"] %>
