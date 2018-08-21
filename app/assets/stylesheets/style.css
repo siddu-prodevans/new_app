@@ -19,7 +19,7 @@
 .memory-field label {
   float: left;
 }
-.bg_image{background-image:url(<%= asset_path 'Bg_img.jpg' %>);background-size: cover;min-height:600px;}
+
 .memory-field label {
   display: inline-block;
   width: 60px;

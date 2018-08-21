@@ -7,6 +7,13 @@
     <%= javascript_include_tag 'application' %>
     <%= csrf_meta_tags %>
   </head>
+  <style>
+   .bg_image{
+     background-image:url(<%= asset_path 'Bg_img.jpg' %>);
+     background-size: cover;
+     min-height:600px;
+   }
+  </style>
   <body>
     <header>
       <%= render 'layouts/navigation' %>
