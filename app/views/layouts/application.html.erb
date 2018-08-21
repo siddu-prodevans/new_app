@@ -17,8 +17,7 @@
        <%= yield %>
     </main>
   </body>
+  <style>
+  .bg_image{background-image:url(<%= asset_path 'Bg_img.jpg' %>);background-size: cover;min-height:600px;}
+  </style>
 </html>
-
-<style>
-  .bg_image{background-image:image-url("Bg_img.jpg");background-size: cover;min-height:600px;}
-</style>
